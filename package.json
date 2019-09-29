@@ -1,5 +1,5 @@
 {
-  "name": "nick-name-usage",
+  "name": "nicks-usage",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,6 +8,7 @@
     "@types/react": "16.9.3",
     "@types/react-dom": "16.9.1",
     "@types/styled-components": "^4.1.19",
+    "nicks": "^0.0.1",
     "normalize.css": "^8.0.1",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
@@ -36,5 +37,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^9.2.0",
+    "@types/testing-library__react": "^9.1.1"
   }
 }

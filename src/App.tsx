@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import nickname from 'nick-name';
+import nicks from 'nicks';
 
 const Container = styled.section`
   height: 100vh;
@@ -15,14 +15,17 @@ const App: React.FC = () => {
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) =>
     setName(event.target.value);
 
-  const nicknames = nickname(name);
+  const nicknames = nicks(name);
 
   return (
     <Container>
-      <input type="text" value={name} onChange={changeHandler}></input>
+      <label>
+        Your name
+        <input type="text" value={name} onChange={changeHandler}></input>
+      </label>
       <ul>
-        {nicknames.map(nickname => (
-          <li key={nickname}>{nickname}</li>
+        {nicknames.map(nick => (
+          <li key={nick}>{nick}</li>
         ))}
       </ul>
     </Container>
