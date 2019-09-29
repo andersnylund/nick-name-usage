@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, ChangeEvent } from 'react';
+import styled from 'styled-components';
+import nickname from 'nick-name';
+
+const Container = styled.section`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const App: React.FC = () => {
+  const [name, setName] = useState('');
+  const changeHandler = (event: ChangeEvent<HTMLInputElement>) =>
+    setName(event.target.value);
+
+  const nicknames = nickname(name);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <input type="text" value={name} onChange={changeHandler}></input>
+      <ul>
+        {nicknames.map(nickname => (
+          <li key={nickname}>{nickname}</li>
+        ))}
+      </ul>
+    </Container>
   );
-}
+};
 
 export default App;
