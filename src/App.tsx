@@ -1,6 +1,10 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import nicks from 'nicks';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { AppState } from './store';
+import { incrementAction, decrementAction } from './actions';
 
 const Container = styled.section`
   height: 100vh;
@@ -12,6 +16,8 @@ const Container = styled.section`
 
 const App: React.FC = () => {
   const [name, setName] = useState('');
+  const counter = useSelector((state: AppState) => state.index.counter);
+  const dispatch = useDispatch();
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) =>
     setName(event.target.value);
 
@@ -28,6 +34,9 @@ const App: React.FC = () => {
           <li key={nick}>{nick}</li>
         ))}
       </ul>
+      <p>{counter}</p>
+      <button onClick={() => dispatch(incrementAction)}>increment</button>
+      <button onClick={() => dispatch(decrementAction)}>decrement</button>
     </Container>
   );
 };
