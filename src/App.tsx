@@ -1,27 +1,42 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import nicks from 'nicks';
 
-const Container = styled.section`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    return (): void => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+  return debouncedValue;
+}
 
 const App: React.FC = () => {
   const [name, setName] = useState('');
+  const [nicknames, setNicknames] = useState([] as string[]);
+  const debouncedName = useDebounce(name, 300);
+
   const changeHandler = (event: ChangeEvent<HTMLInputElement>): void =>
     setName(event.target.value);
 
-  const nicknames = nicks(name);
+  useEffect(() => {
+    setNicknames(nicks(debouncedName));
+  }, [debouncedName]);
 
   return (
     <Container>
       <Label>
         <span>Your name</span>
-        <input type="text" value={name} onChange={changeHandler} />
+        <input
+          placeholder="Matti"
+          type="text"
+          value={name}
+          onChange={changeHandler}
+        />
       </Label>
       <List>
         {nicknames.map(nick => (
@@ -32,6 +47,14 @@ const App: React.FC = () => {
   );
 };
 
+const Container = styled.section`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Label = styled.label`
   display: flex;
   flex-direction: column;
@@ -40,8 +63,8 @@ const Label = styled.label`
 const List = styled.ul`
   min-height: 200px;
   list-style: none;
-  margin: 0;
-  padding: 10px 0 0 0;
+  margin: 10px 0 0 0;
+  padding: 0;
 `;
 
 export default App;
